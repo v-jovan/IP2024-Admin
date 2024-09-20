@@ -121,18 +121,43 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy. HH:mm");
 		}
 
 		function renderPagination() {
-			const pageCount = Math.ceil(rows.length / rowsPerPage);
-			const pagination = document.getElementById('pagination');
-			pagination.innerHTML = '';
+		    const pageCount = Math.ceil(rows.length / rowsPerPage);
+		    const pagination = document.getElementById('pagination');
+		    pagination.innerHTML = '';
 
-			for (let i = 1; i <= pageCount; i++) {
-				const li = document.createElement('li');
-				li.className = 'page-item ' + (i === currentPage ? 'active' : '');
-				li.innerHTML = '<a class="page-link" href="#">' + i + '</a>';
-				li.addEventListener('click', () => displayRows(i));
-				pagination.appendChild(li);
-			}
+		    const maxPagesToShow = 5;
+		    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+		    let endPage = Math.min(pageCount, startPage + maxPagesToShow - 1);
+
+		    const prevLi = document.createElement('li');
+		    prevLi.className = 'page-item ' + (currentPage === 1 ? 'disabled' : '');
+		    prevLi.innerHTML = '<a class="page-link" href="#"><</a>';
+		    prevLi.addEventListener('click', () => {
+		        if (currentPage > 1) {
+		            displayRows(currentPage - 1);
+		        }
+		    });
+		    pagination.appendChild(prevLi);
+
+		    for (let i = startPage; i <= endPage; i++) {
+		        const li = document.createElement('li');
+		        li.className = 'page-item ' + (i === currentPage ? 'active' : '');
+		        li.innerHTML = '<a class="page-link" href="#">' + i + '</a>';
+		        li.addEventListener('click', () => displayRows(i));
+		        pagination.appendChild(li);
+		    }
+
+		    const nextLi = document.createElement('li');
+		    nextLi.className = 'page-item ' + (currentPage === pageCount ? 'disabled' : '');
+		    nextLi.innerHTML = '<a class="page-link" href="#">></a>';
+		    nextLi.addEventListener('click', () => {
+		        if (currentPage < pageCount) {
+		            displayRows(currentPage + 1);
+		        }
+		    });
+		    pagination.appendChild(nextLi);
 		}
+
 
 		displayRows(1);
 		

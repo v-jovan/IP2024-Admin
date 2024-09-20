@@ -17,4 +17,10 @@
 		<param-name>org.apache.jasper.compiler.TldLocationsCache.TLD_SCAN_JAR_EXCLUDES</param-name>
 		<param-value>*.jar</param-value>
 	</context-param>
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/assets/*</url-pattern>
+	</servlet-mapping>
+
 </web-app>
